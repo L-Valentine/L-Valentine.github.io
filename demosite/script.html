@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Happy dog</title>
+	<script src="jquery.js"></script>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Bad+Script&amp;subset=cyrillic" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+<script>
+	window.onload = function () {
+		var input = document.getElementById("calcSum");
+		var Nds1 = document.getElementById("ofNds");
+		var Nds2 = document.getElementById("onNds");
+		var button = document.getElementById("calcRes");
+		
+		button.onclick = function () {
+			if ((input.value == "" && input.value <= 0) || (Nds1.checked == false && Nds2.checked == false)) {
+				alert("Введите число и выберите метод расчета!");
+			} else {
+				if (Nds1.checked) {
+					var n = input.value;
+					var sum1 = -(n/1.18-n);
+					var sum11 = (n/1.18);
+					document.getElementById("output").innerHTML = ("Ставка НДС: 18%, " + "НДС: " + sum1.toFixed(2) + ", " + "Сумма без НДС: " + sum11.toFixed(2));
+					Nds1.checked = false;
+					input.value = "";
+			} else {
+					var m = input.value;
+					var sum2 = (m*1.18-m); //НДС
+					var sum22 = (m*1.18); //Сумма с НДС
+					document.getElementById("output").innerHTML = ("Ставка НДС: 18%, " + "НДС: " + sum2.toFixed(2) + ", " + "Сумма с НДС: " + sum22.toFixed(2));
+					Nds2.checked = false;
+					input.value = "";
+				};
+			};
+		};
+	};
+
+$(document).ready(function() {
+	$(function() {
+		var addBtn = $("#add_note");
+		var forContainer = $("#form_container");
+		var okBtn = $("#ok");
+		var cancelBtn = $("#cancel");
+		var textarea = forContainer.find("textarea");
+		var notesList = $("#notes");
+
+
+	addBtn.click(function () {
+		forContainer.fadeIn();
+		textarea.focus();
+	});	
+
+	cancelBtn.click(function () {
+		forContainer.fadeOut();
+	});
+
+	var createNote = function () {
+		var text = textarea.val();
+		if (text != "") {
+			notesList.prepend("<li><p>" + text + "</p></li>");
+			textarea.val("");
+			forContainer.fadeOut();
+		} else {
+			textarea.css("border-color", "red");
+			textarea.focus();
+		}
+	};
+
+	okBtn.click(createNote);
+
+	textarea.keydown(function (event) {
+		if (event.ctrlKey == true && event.keyCode == 13) {
+			createNote();
+		}
+	});
+
+	textarea.keypress(function() {
+		textarea.css("border-color", "");
+	});
+
+	notesList.on("dblclick", "li", function() {
+		var result = confirm("Вы уверены, что хотите удалить стикер?");
+		if (result == true) {
+			$(this).remove();
+		}
+	});
+	});
+});
+
+</script>
+
+
+</head>
+<body>
+	<div class="container">
+	<div class="flex1">
+	<header>
+		<a href="index.html">Happy dog</a>
+		<a href="gallery.html">Dog life</a>
+		<a href="script.html">Some code</a>
+	</header>
+			
+	<h1>Some code</h1>
+	<h3>Калькулятор НДС</h3>
+
+	<div>
+		<p class="calc">
+			Введите сумму:
+			<input id="calcSum" type="text"></input>
+			НДС 18%
+			<input id="ofNds" type="radio"> Выделить НДС</input>
+			<input id="onNds" type="radio"> Начислить НДС</input>
+			<br>
+			<button id="calcRes" type="text">Показать результат</button>
+			<br>
+			<span id="output"></span>
+			<br>
+		</p>
+	</div> 
+	<br>
+	
+	<div id="stick">
+		<button id="add_note" class="btn">Добавить стикер</button>
+		<div id="form_container">
+			<div id="form">
+				<h3>Введите текст заметки</h3>
+				<textarea placeholder="Введите текст" rows="3"></textarea>
+				<button id="ok">OK</button>
+				<button id="cancel">Отмена</button>
+			</div>
+		</div>
+
+		<ul id="notes">
+			
+		</ul>
+
+	</div>
+
+	<footer>All dog-right reserved. Using for demonstration purposes only.</footer>
+	</div>
+</body>
+</html> 
